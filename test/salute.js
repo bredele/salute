@@ -16,7 +16,7 @@ test('should transfer string', assert => {
     salute(() => {
       return 'hello world'
     })(req, res).pipe(concat(data => assert.equal(data.toString(), 'hello world')))
-    assert.equal(res.getHeader('Content-Type'), 'text/plain')
+    assert.equal(res.getHeader('Content-Type'), 'text/plain; charset=utf-8')
   })
 })
 
@@ -28,7 +28,7 @@ test('should transfer promise', assert => {
         resolve('hello world')
       })
     })(req, res).pipe(concat(data => assert.equal(data.toString(), 'hello world')))
-    assert.equal(res.getHeader('Content-Type'), 'text/plain')
+    assert.equal(res.getHeader('Content-Type'), 'text/plain; charset=utf-8')
   })
 })
 
@@ -50,7 +50,7 @@ test('should transfer object', assert => {
         name: 'hello'
       }
     })(req, res).pipe(concat(data => assert.equal(data.toString(), '{"name":"hello"}')))
-    assert.equal(res.getHeader('Content-Type'), 'application/json')
+    assert.equal(res.getHeader('Content-Type'), 'application/json; charset=utf-8')
   })
 })
 
@@ -62,5 +62,15 @@ test('should set status code if an http error is transfered', assert => {
     })(req, res)
     assert.equal(res.statusCode, 401)
     assert.equal(res.statusMessage , 'Unauthorized')
+  })
+})
+
+test('should set mime type', assert => {
+  assert.plan(1)
+  server((req, res) => {
+    salute(() => {
+      return '<button>hello</buton>'
+    }, 'html')(req, res)
+    assert.equal(res.getHeader('Content-Type'), 'text/html; charset=utf-8')
   })
 })
