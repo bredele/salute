@@ -33,6 +33,6 @@ test('should transfer stream', assert => {
   server((req, res) => {
     salute(() => {
       return fs.createReadStream(__dirname + '/salute.txt')
-    })(req, res).pipe(concat(data => assert.equal(data.toString(), 'hello world')))
+    })(req, res).pipe(concat(data => assert.equal(data.toString(), 'hello world\n')))
   })
 })
