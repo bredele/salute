@@ -1,7 +1,7 @@
 {
   "name": "salute",
   "version": "1.0.0",
-  "description": "",
+  "description": "The best middleware for your HTTP request/response",
   "main": "index.js",
   "directories": {
     "test": "test"
