@@ -1,0 +1,27 @@
+{
+  "name": "salute",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "tape test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bredele/salute.git"
+  },
+  "keywords": [
+    "response",
+    "stream",
+    "status"
+  ],
+  "author": "Olivier Wietrich",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bredele/salute/issues"
+  },
+  "homepage": "https://github.com/bredele/salute#readme"
+}
