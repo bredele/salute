@@ -39,6 +39,19 @@ test('should transfer stream', assert => {
   })
 })
 
+
+test('should transfer object', assert => {
+  assert.plan(2)
+  server((req, res) => {
+    salute(() => {
+      return {
+        name: 'hello'
+      }
+    })(req, res).pipe(concat(data => assert.equal(data.toString(), '{"name":"hello"}')))
+    assert.equal(res.getHeader('Content-Type'), 'application/json')
+  })
+})
+
 test('should set status code if an http error is transfered', assert => {
   assert.plan(2)
   server((req, res) => {
