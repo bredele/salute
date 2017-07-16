@@ -11,22 +11,24 @@ const createError = require('http-errors')
 
 
 test('should transfer string', assert => {
-  assert.plan(1)
+  assert.plan(2)
   server((req, res) => {
     salute(() => {
       return 'hello world'
     })(req, res).pipe(concat(data => assert.equal(data.toString(), 'hello world')))
+    assert.equal(res.getHeader('Content-Type'), 'text/plain')
   })
 })
 
 test('should transfer promise', assert => {
-  assert.plan(1)
+  assert.plan(2)
   server((req, res) => {
     salute(() => {
       return new Promise((resolve, reject) => {
         resolve('hello world')
       })
     })(req, res).pipe(concat(data => assert.equal(data.toString(), 'hello world')))
+    assert.equal(res.getHeader('Content-Type'), 'text/plain')
   })
 })
 
