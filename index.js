@@ -5,8 +5,7 @@
 const stream = require('morph-stream')
 const status = require('response-status')
 const lookup = require('mime-types').contentType
-const
-toString = Object.prototype.toString
+const toString = Object.prototype.toString
 
 /**
  * Create an HTTP request/response middlware which
