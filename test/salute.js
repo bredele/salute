@@ -7,6 +7,8 @@ const server = require('server-test')
 const salute = require('..')
 const concat = require('concat-stream')
 const fs = require('fs')
+const createError = require('http-errors')
+
 
 test('should transfer string', assert => {
   assert.plan(1)
@@ -34,5 +36,16 @@ test('should transfer stream', assert => {
     salute(() => {
       return fs.createReadStream(__dirname + '/salute.txt')
     })(req, res).pipe(concat(data => assert.equal(data.toString(), 'hello world\n')))
+  })
+})
+
+test('should set status code if an http error is transfered', assert => {
+  assert.plan(2)
+  server((req, res) => {
+    salute(() => {
+      return createError(401)
+    })(req, res)
+    assert.equal(res.statusCode, 401)
+    assert.equal(res.statusMessage , 'Unauthorized')
   })
 })

@@ -30,6 +30,8 @@
     "tape": "^4.7.0"
   },
   "dependencies": {
-    "morph-stream": "^3.1.0"
+    "http-errors": "^1.6.1",
+    "morph-stream": "^3.1.0",
+    "response-status": "^1.0.0"
   }
 }
