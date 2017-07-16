@@ -35,7 +35,7 @@ http.createServer((req, res) => {
 })
 ```
 
-Salute automatically know which type of data you want to send through the response and set the appropriate content type. However, you can set the response header with a content type of your choice:
+Salute automatically know which type of data you want to send through the response and set the appropriate content type (text/plain for promises and streams). However, you can set the response header with a content type of your choice:
 
 ```js
 salute(fn, 'csv')
