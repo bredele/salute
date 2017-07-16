@@ -35,8 +35,7 @@ http.createServer((req, res) => {
 })
 ```
 
-Salute automatically know which type of data you want to send through the response and set the appropriate content type. However, you can force the type by passing a second argument to your middleware.
-
+Salute automatically know which type of data you want to send through the response and set the appropriate content type. However, you can set the response header with a content type of your choice:
 
 ```js
 salute(fn, 'csv')
