@@ -24,7 +24,6 @@ module.exports = (middleware, type) => {
     return stream(Promise.resolve(value).then(val => {
       if (val instanceof Error) {
         status(res, val.statusCode)
-        return ''
       } else {
         res.setHeader('Content-Type', mime(val, type))
         return val
