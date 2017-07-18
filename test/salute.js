@@ -73,11 +73,10 @@ test('should set status code if an http error is transfered', assert => {
     const input = salute(() => {
       return createError(401)
     })(req, res)
-    input.pipe(concat(data => {
+    input.on('error', err => {
       assert.equal(res.statusCode, 401)
       assert.equal(res.statusMessage , 'Unauthorized')
-    }))
-    // input.pipe(res)
+    })
   }, null, true)
 })
 

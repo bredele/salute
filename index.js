@@ -22,15 +22,14 @@ module.exports = (middleware, type) => {
   return (req, res, ...args) => {
     const value = middleware(req, res, ...args)
     return stream(Promise.resolve(value).then(val => {
-      if (val instanceof Error) {
-        status(res, val.statusCode)
-      } else {
-        res.setHeader('Content-Type', mime(val, type))
-        return val
-      }
-    }, reason => status(res, reason.statusCode)))
+      if (!(val instanceof Error)) res.setHeader('Content-Type', mime(val, type))
+      return val
+    })).on('error', err => {
+      status(res, err.statusCode)
+    })
   }
 }
+
 
 
 
