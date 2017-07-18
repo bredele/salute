@@ -32,7 +32,7 @@
   "dependencies": {
     "http-errors": "^1.6.1",
     "mime-types": "^2.1.15",
-    "morph-stream": "^3.2.0",
+    "morph-stream": "^3.2.1",
     "response-status": "^1.0.0"
   }
 }

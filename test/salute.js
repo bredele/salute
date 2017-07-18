@@ -51,21 +51,21 @@ test('should transfer stream', assert => {
   }, null, true)
 })
 
-// test('should transfer object', assert => {
-//   assert.plan(2)
-//   server((req, res) => {
-//     const input = salute(() => {
-//       return {
-//         name: 'hello'
-//       }
-//     })(req, res)
-//     input.pipe(concat(data => {
-//       assert.equal(res.getHeader('Content-Type'), 'application/json; charset=utf-8')
-//       assert.equal(data.toString(), '{"name":"hello"}')
-//     }))
-//     input.pipe(res)
-//   }, null, true)
-// })
+test('should transfer object', assert => {
+  assert.plan(2)
+  server((req, res) => {
+    const input = salute(() => {
+      return {
+        name: 'hello'
+      }
+    })(req, res)
+    input.pipe(concat(data => {
+      assert.equal(res.getHeader('Content-Type'), 'application/json; charset=utf-8')
+      assert.equal(data.toString(), '{"name":"hello"}')
+    }))
+    input.pipe(res)
+  }, null, true)
+})
 
 // test('should set status code if an http error is transfered', assert => {
 //   assert.plan(2)
