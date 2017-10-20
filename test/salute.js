@@ -80,15 +80,15 @@ test('should set status code if an http error is transfered', assert => {
   }, null, true)
 })
 
-test('should set mime type', assert => {
-  assert.plan(1)
-  server((req, res) => {
-    const input = salute(() => {
-      return '<button>hello</buton>'
-    }, 'html')(req, res)
-    input.pipe(concat(data => {
-      assert.equal(res.getHeader('Content-Type'), 'text/html; charset=utf-8')
-    }))
-    input.pipe(res)
-  }, null, true)
-})
+// test('should set mime type', assert => {
+//   assert.plan(1)
+//   server((req, res) => {
+//     const input = salute(() => {
+//       return '<button>hello</buton>'
+//     }, 'html')(req, res)
+//     input.pipe(concat(data => {
+//       assert.equal(res.getHeader('Content-Type'), 'text/html; charset=utf-8')
+//     }))
+//     input.pipe(res)
+//   }, null, true)
+// })

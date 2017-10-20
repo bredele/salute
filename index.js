@@ -8,21 +8,33 @@ const lookup = require('mime-types').contentType
 const toString = Object.prototype.toString
 
 
+
+/**
+ * Expose salute.
+ */
+
+module.exports = salute
+
+
 /**
  * Create an HTTP request/response middlware which
  * chunk any type of value returned as well as set
  * the response content type.
  *
  * @param {Function} middleware
- * @param {String?} type
  * @api public
  */
 
-module.exports = (middleware, type) => {
+function salute (middleware) {
   return (req, res, ...args) => {
     const value = middleware(req, res, ...args)
     return stream(Promise.resolve(value).then(val => {
-      if (!(val instanceof Error)) res.setHeader('Content-Type', mime(val, type))
+      if (!(val instanceof Error)) {
+        res.setHeader(
+          'Content-Type',
+          lookup(toString.call(val) === '[object Object]' ? 'json' : 'text')
+        )
+      }
       return val
     })).on('error', err => {
       status(res, err.statusCode)
@@ -31,20 +43,8 @@ module.exports = (middleware, type) => {
 }
 
 
-
-
-/**
- * Return full content type header given a value or a content-type.
- *
- * @param {Any} value
- * @param {String} foce
- * @return {String} (default text/plain)
- * @api public
+/*
+ * Expose content type lookup for convenience.
  */
 
-function mime (value, force) {
-  if (force) return lookup(force) || lookup('text')
-  const type = toString.call(value)
-  if (type === '[object Object]') return lookup('json')
-  return lookup('text')
-}
+salute.mime = lookup
