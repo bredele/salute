@@ -9,7 +9,6 @@ const concat = require('concat-stream')
 const fs = require('fs')
 const createError = require('http-errors')
 
-
 test('should transfer string', assert => {
   assert.plan(2)
   server((req, res) => {
@@ -23,6 +22,19 @@ test('should transfer string', assert => {
     input.pipe(res)
   }, null, true)
 })
+
+test('should return empty string if null or undefined', assert => {
+  assert.plan(2)
+  server((req, res) => {
+    const input =  salute(() => {})(req, res)
+    input.pipe(concat(data => {
+      assert.equal(data === '', true)
+      assert.equal(res.statusCode, 200)
+    }))
+    input.pipe(res)
+  }, null, true)
+})
+
 
 test('should transfer promise', assert => {
   assert.plan(2)
@@ -92,6 +104,7 @@ test('should set status code internal error if an exception is thrown', assert =
     })
   }, null, true)
 })
+
 
 // test('should set mime type', assert => {
 //   assert.plan(1)

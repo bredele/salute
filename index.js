@@ -29,7 +29,7 @@ function salute (cb) {
   return (req, res, ...args) => {
     var value = null
     try {
-      value = cb(req, res, ...args)
+      value = cb(req, res, ...args) || ''
     } catch (e) {
       value = e
     }

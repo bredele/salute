@@ -27,12 +27,12 @@
   "devDependencies": {
     "concat-stream": "^1.6.0",
     "server-test": "^1.1.2",
+    "http-errors": "^1.6.1",
     "tape": "^4.7.0"
   },
   "dependencies": {
-    "http-errors": "^1.6.1",
     "mime-types": "^2.1.15",
-    "morph-stream": "^3.2.1",
+    "morph-stream": "^3.2.2",
     "response-status": "^1.0.0"
   }
 }
