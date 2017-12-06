@@ -23,6 +23,7 @@ test('should transfer string', assert => {
   }, null, true)
 })
 
+
 test('should return empty string if null or undefined', assert => {
   assert.plan(2)
   server((req, res) => {
@@ -34,6 +35,21 @@ test('should return empty string if null or undefined', assert => {
     input.pipe(res)
   }, null, true)
 })
+
+test('should transfer primitive', assert => {
+  assert.plan(2)
+  server((req, res) => {
+    const input =  salute(() => {
+      return true
+    })(req, res)
+    input.pipe(concat(data => {
+      assert.equal(res.getHeader('Content-Type'), 'text/plain; charset=utf-8')
+      assert.equal(data.toString(), 'true')
+    }))
+    input.pipe(res)
+  }, null, true)
+})
+
 
 
 test('should transfer promise', assert => {
