@@ -3,7 +3,7 @@
  */
 
 const stream = require('morph-stream')
-const status = require('response-status')
+const error = require('response-status')
 const lookup = require('mime-types').contentType
 const toString = Object.prototype.toString
 
@@ -21,24 +21,58 @@ module.exports = salute
  * chunk any type of value returned as well as set
  * the response content type.
  *
- * @param {Function} middleware
+ * @param {Function} cb
  * @api public
  */
 
-function salute (middleware) {
+function salute (cb) {
   return (req, res, ...args) => {
-    const value = middleware(req, res, ...args)
-    return stream(Promise.resolve(value).then(val => {
-      if (!(val instanceof Error)) {
-        res.setHeader(
-          'Content-Type',
-          lookup(toString.call(val) === '[object Object]' ? 'json' : 'text')
-        )
-      }
-      return val
-    })).on('error', err => {
-      status(res, err.statusCode)
-    })
+    var value = null
+    try {
+      value = cb(req, res, ...args)
+    } catch (e) {
+      value = e
+    }
+    return stream(Promise.resolve(value).then(type(res)))
+      .on('error', status(res))
+  }
+}
+
+
+/**
+ * Set response content type header.
+ *
+ * @param {Object} response
+ * @return {Function}
+ * @api private
+ */
+
+function type (response) {
+  return value => {
+    if (!(value instanceof Error)) {
+      response.setHeader(
+        'Content-Type',
+        lookup(toString.call(value) === '[object Object]' ? 'json' : 'text')
+      )
+    }
+    return value
+  }
+}
+
+
+/**
+ * Set response status code and message.
+ *
+ * @param {Object} response
+ * @return {Function}
+ * @api private
+ */
+
+function status (res) {
+  return err => {
+    const code = err.statusCode
+    error(res, code || 500)
+    if (!code) console.log(err)
   }
 }
 

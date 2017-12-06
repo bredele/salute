@@ -80,6 +80,19 @@ test('should set status code if an http error is transfered', assert => {
   }, null, true)
 })
 
+test('should set status code internal error if an exception is thrown', assert => {
+  assert.plan(2)
+  server((req, res) => {
+    const input = salute(() => {
+      throw new Error('something')
+    })(req, res)
+    input.on('error', err => {
+      assert.equal(res.statusCode, 500)
+      assert.equal(res.statusMessage , 'Internal Server Error')
+    })
+  }, null, true)
+})
+
 // test('should set mime type', assert => {
 //   assert.plan(1)
 //   server((req, res) => {
