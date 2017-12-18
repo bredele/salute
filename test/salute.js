@@ -95,6 +95,20 @@ test('should transfer object', assert => {
   }, null, true)
 })
 
+test('should transfer array', assert => {
+  assert.plan(2)
+  server((req, res) => {
+    const input = salute(() => {
+      return ["hello", "world"]
+    })(req, res)
+    input.pipe(concat(data => {
+      assert.equal(res.getHeader('Content-Type'), 'application/json; charset=utf-8')
+      assert.equal(data.toString(), '["hello","world"]')
+    }))
+    input.pipe(res)
+  }, null, true)
+})
+
 test('should set status code if an http error is transfered', assert => {
   assert.plan(2)
   server((req, res) => {

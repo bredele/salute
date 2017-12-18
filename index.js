@@ -52,10 +52,10 @@ function type (response) {
     if (!(value instanceof Error)) {
       response.setHeader(
         'Content-Type',
-        lookup(toString.call(value) === '[object Object]' ? 'json' : 'text')
+        lookup(typeof value === 'object' ? 'json' : 'text')
       )
     }
-    return value
+    return value instanceof Array ? JSON.stringify(value) : value
   }
 }
 
